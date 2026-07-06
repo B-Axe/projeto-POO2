@@ -1,6 +1,9 @@
 import pygame
 import sys
 import random
+import csv
+import os
+from datetime import datetime
 
 pygame.init()
 
@@ -41,31 +44,46 @@ def carregar_config(nome_arquivo):
 # =========================
 class Carro:
 
-    def __init__(self, x, y, cor, frenagem=True, frenagem_brusca=False):
-
+    def __init__(self, x, y, cor, modo="livre"):
+        """
+        modo:
+          "livre"   → estrada 2 original: anda sem frear
+          "suave"   → estrada 1: freia gradualmente ao detectar carro à frente
+          "reativo" → estrada 2 nova: freia bruscamente quando o da frente
+                      REDUZ velocidade; fica parado 1s antes de retomar
+        """
         self.x_base = x
         self.y = y
         self.cor = cor
+        self.modo = modo
 
-        self.frenagem = frenagem
-        self.frenagem_brusca = frenagem_brusca
+        self.velocidade_base  = random.randint(2, 7)
+        self.velocidade_atual = float(self.velocidade_base)
 
-        self.velocidade_base = random.randint(2, 7)
-        self.velocidade_atual = self.velocidade_base
-
-        self.batido = False
+        self.batido       = False
         self.tempo_batida = 0
 
         self.largura = 60
-        self.altura = 100
+        self.altura  = 100
 
         self.DISTANCIA_FRENAGEM = 150
-        self.DISTANCIA_SEGURA = 110
+        self.DISTANCIA_SEGURA   = 110
         self.freando = False
 
+        # usado pelo modo "reativo"
+        self.vel_frente_anterior = None   # velocidade do carro da frente no frame anterior
+        self.esperando           = False  # está no período de espera de 1s?
+        self.tempo_espera        = 0      # quando começou a esperar
+
+        # gasolina fictícia acumulada
+        self.gasolina_total = 0.0
+
+        # distância percorrida acumulada
+        self.distancia_total = 0.0
+
+    # --------------------------------------------------
     def atualizar(self, tempo_atual, outros_carros):
 
-        # recuperar batida
         if self.batido:
             if tempo_atual - self.tempo_batida > 5000:
                 self.batido = False
@@ -74,100 +92,149 @@ class Carro:
 
         self.freando = False
 
-        # --- SEM FRENAGEM (estrada 2) ---
-        if not self.frenagem:
-            self.velocidade_atual = self.velocidade_base
-            self.y += self.velocidade_atual
-            return
+        if self.modo == "livre":
+            self._modo_livre()
 
-        carro_a_frente = self._encontrar_carro_a_frente(outros_carros)
+        elif self.modo == "suave":
+            self._modo_suave(outros_carros)
 
-        # --- FRENAGEM BRUSCA (estrada 3) ---
-        if self.frenagem_brusca:
+        elif self.modo == "reativo":
+            self._modo_reativo(tempo_atual, outros_carros)
 
-            if carro_a_frente is not None:
+        self.y += self.velocidade_atual
+        self._consumir_gasolina()
 
-                distancia = carro_a_frente.y - (self.y + self.altura)
+    # --------------------------------------------------
+    def _consumir_gasolina(self):
+        """
+        Consumo por frame:
+          - parado (vel == 0)  : 0.0  (motor em ponto morto)
+          - freando            : vel * 0.3  (motor em desaceleração)
+          - acelerando/cruzeiro: vel * 1.0
+        """
+        if self.velocidade_atual == 0.0:
+            consumo = 0.0
+        elif self.freando:
+            consumo = self.velocidade_atual * 0.3
+        else:
+            consumo = self.velocidade_atual * 1.0
+        self.gasolina_total  += consumo
+        self.distancia_total += self.velocidade_atual
 
-                if distancia < self.DISTANCIA_FRENAGEM:
+    # --------------------------------------------------
+    def _modo_livre(self):
+        self.velocidade_atual = float(self.velocidade_base)
 
-                    self.freando = True
+    # --------------------------------------------------
+    def _modo_suave(self, outros):
 
-                    # se o da frente está muito perto: para instantaneamente
-                    if distancia <= self.DISTANCIA_SEGURA:
-                        self.velocidade_atual = 0
-                    else:
-                        # fora da zona crítica: diminui proporcionalmente mas rápido
-                        fator = (distancia - self.DISTANCIA_SEGURA) / (
-                            self.DISTANCIA_FRENAGEM - self.DISTANCIA_SEGURA
-                        )
-                        self.velocidade_atual = max(
-                            0,
-                            carro_a_frente.velocidade_atual
-                            + fator * (self.velocidade_base - carro_a_frente.velocidade_atual),
-                        )
-                else:
-                    # caminho livre → volta à velocidade base instantaneamente
-                    self.velocidade_atual = self.velocidade_base
+        frente = self._carro_a_frente(outros)
 
-            else:
-                self.velocidade_atual = self.velocidade_base
+        if frente is not None:
+            dist = frente.y - (self.y + self.altura)
 
-            self.y += self.velocidade_atual
-            return
-
-        # --- FRENAGEM SUAVE (estrada 1) ---
-        if carro_a_frente is not None:
-
-            distancia = carro_a_frente.y - (self.y + self.altura)
-
-            if distancia < self.DISTANCIA_FRENAGEM:
-
+            if dist < self.DISTANCIA_FRENAGEM:
                 self.freando = True
 
-                if distancia <= self.DISTANCIA_SEGURA:
-                    vel_alvo = max(0, carro_a_frente.velocidade_atual)
+                if dist <= self.DISTANCIA_SEGURA:
+                    vel_alvo = max(0.0, frente.velocidade_atual)
                 else:
-                    fator = (distancia - self.DISTANCIA_SEGURA) / (
+                    fator = (dist - self.DISTANCIA_SEGURA) / (
                         self.DISTANCIA_FRENAGEM - self.DISTANCIA_SEGURA
                     )
                     vel_alvo = max(
-                        0,
-                        carro_a_frente.velocidade_atual
-                        + fator * (self.velocidade_base - carro_a_frente.velocidade_atual),
+                        0.0,
+                        frente.velocidade_atual
+                        + fator * (self.velocidade_base - frente.velocidade_atual),
                     )
 
                 if self.velocidade_atual > vel_alvo:
                     self.velocidade_atual = max(vel_alvo, self.velocidade_atual - 0.3)
                 else:
                     self.velocidade_atual = min(vel_alvo, self.velocidade_atual + 0.15)
+                return
 
+        self.velocidade_atual = min(
+            float(self.velocidade_base), self.velocidade_atual + 0.15
+        )
+
+    # --------------------------------------------------
+    def _modo_reativo(self, tempo_atual, outros):
+        """
+        Observa a velocidade do carro à frente.
+        Se ele reduziu em relação ao frame anterior, freia o mais rápido possível.
+        Quando para (vel == 0), aguarda 1 segundo antes de retomar.
+        """
+        frente = self._carro_a_frente(outros)
+
+        # --- período de espera após parar ---
+        if self.esperando:
+            if tempo_atual - self.tempo_espera >= 1000:
+                self.esperando = False
+                self.vel_frente_anterior = None
             else:
-                self.velocidade_atual = min(self.velocidade_base, self.velocidade_atual + 0.15)
+                self.velocidade_atual = 0.0
+                self.freando = True
+                return
+
+        if frente is None:
+            # caminho livre: acelera normalmente
+            self.velocidade_atual = min(
+                float(self.velocidade_base), self.velocidade_atual + 0.15
+            )
+            self.vel_frente_anterior = None
+            return
+
+        vel_frente_agora = frente.velocidade_atual
+        dist = frente.y - (self.y + self.altura)
+
+        # detecta se o carro da frente reduziu a velocidade
+        frente_reduziu = (
+            self.vel_frente_anterior is not None
+            and vel_frente_agora < self.vel_frente_anterior - 0.5
+        )
+
+        # freia bruscamente se: detectou redução OU está muito perto
+        if frente_reduziu or dist < self.DISTANCIA_SEGURA:
+            self.freando = True
+            # freia o mais forte possível (desaceleração de 1.5 por frame)
+            self.velocidade_atual = max(0.0, self.velocidade_atual - 1.5)
+
+            # chegou a zero: inicia espera de 1s
+            if self.velocidade_atual == 0.0 and not self.esperando:
+                self.esperando    = True
+                self.tempo_espera = tempo_atual
+
+        elif dist < self.DISTANCIA_FRENAGEM:
+            # dentro do alcance mas sem redução detectada: mantém velocidade do da frente
+            self.freando = True
+            self.velocidade_atual = min(
+                float(self.velocidade_base),
+                max(0.0, vel_frente_agora)
+            )
+
         else:
-            self.velocidade_atual = min(self.velocidade_base, self.velocidade_atual + 0.15)
+            # longe e sem alerta: retoma normalmente
+            self.velocidade_atual = min(
+                float(self.velocidade_base), self.velocidade_atual + 0.15
+            )
 
-        self.y += self.velocidade_atual
+        self.vel_frente_anterior = vel_frente_agora
 
-    def _encontrar_carro_a_frente(self, outros_carros):
+    # --------------------------------------------------
+    def _carro_a_frente(self, outros):
 
         ALCANCE = self.DISTANCIA_FRENAGEM + self.altura + 20
-        candidato = None
-        menor = float("inf")
+        candidato, menor = None, float("inf")
 
-        for outro in outros_carros:
-
+        for outro in outros:
             if outro is self:
                 continue
-
             if abs(outro.x_base - self.x_base) >= 20:
                 continue
-
             dist = outro.y - (self.y + self.altura)
-
             if 0 <= dist < ALCANCE and dist < menor:
-                menor = dist
-                candidato = outro
+                menor, candidato = dist, outro
 
         return candidato
 
@@ -175,7 +242,7 @@ class Carro:
         self.velocidade_base = random.randint(2, 7)
 
     def get_rect(self):
-        return pygame.Rect(self.x_base, self.y, self.largura, self.altura)
+        return pygame.Rect(int(self.x_base), int(self.y), self.largura, self.altura)
 
 
 # =========================
@@ -183,9 +250,10 @@ class Carro:
 # =========================
 class Estrada:
 
-    def __init__(self, nome_arquivo, offset_x_tela, com_frenagem=True, frenagem_brusca=False):
+    def __init__(self, nome_arquivo, offset_x_tela, modo_carro="suave"):
 
-        self.offset_x = offset_x_tela
+        self.offset_x    = offset_x_tela
+        self.modo_carro  = modo_carro
 
         estrada_x, estrada_largura, carros_cfg = carregar_config(nome_arquivo)
 
@@ -193,58 +261,62 @@ class Estrada:
         self.estrada_largura = estrada_largura
 
         self.carros = [
-            Carro(c["x"], c["y"], c["cor"],
-                  frenagem=com_frenagem,
-                  frenagem_brusca=frenagem_brusca)
+            Carro(c["x"], c["y"], c["cor"], modo=modo_carro)
             for c in carros_cfg
         ]
-        self.carro_ref = self.carros[0] if self.carros else None
+        # usa o carro do meio como referência de câmera,
+        # assim carros aparecem tanto à frente quanto atrás
+        if self.carros:
+            carros_ordenados = sorted(self.carros, key=lambda c: c.y)
+            self.carro_ref = carros_ordenados[len(carros_ordenados) // 2]
+        else:
+            self.carro_ref = None
 
-        self.zoom = 1.0
-        self.tempo_troca = pygame.time.get_ticks()
+        self.zoom             = 1.0
+        self.tempo_troca      = pygame.time.get_ticks()
+        self.contador_batidas = 0
+
+    @property
+    def media_distancia(self):
+        if not self.carros:
+            return 0.0
+        return sum(c.distancia_total for c in self.carros) / len(self.carros)
+
+    @property
+    def media_gasolina(self):
+        if not self.carros:
+            return 0.0
+        return sum(c.gasolina_total for c in self.carros) / len(self.carros)
 
     def calcular_zoom(self):
-
         if not self.carro_ref or len(self.carros) < 2:
             self.zoom = 1.0
             return
-
         maior = max(abs(c.y - self.carro_ref.y) for c in self.carros)
+        self.zoom = max(0.3, 1 - maior / 1500) if maior > 300 else 1.0
 
-        if maior > 300:
-            self.zoom = max(0.3, 1 - maior / 1500)
-        else:
-            self.zoom = 1.0
-
-    def zoom_y(self, y, centro_y):
-        return centro_y + (y - centro_y) * self.zoom
-
-    def zoom_x(self, x, centro_x):
-        return centro_x + (x - centro_x) * self.zoom
+    def zoom_y(self, y, cy): return cy + (y - cy) * self.zoom
+    def zoom_x(self, x, cx): return cx + (x - cx) * self.zoom
 
     def verificar_colisoes(self, tempo_atual):
 
         for c1 in self.carros:
-
             if c1.batido:
                 continue
-
             for c2 in self.carros:
-
                 if c1 is c2:
                     continue
-
                 if abs(c1.x_base - c2.x_base) >= 20:
                     continue
-
                 if c1.get_rect().colliderect(c2.get_rect()):
-
                     if c1.y < c2.y:
                         c1.batido = True
                         c1.tempo_batida = tempo_atual
+                        self.contador_batidas += 1
                     elif c2.y < c1.y:
                         c2.batido = True
                         c2.tempo_batida = tempo_atual
+                        self.contador_batidas += 1
 
     def atualizar(self, tempo_atual):
 
@@ -259,13 +331,18 @@ class Estrada:
         self.verificar_colisoes(tempo_atual)
         self.calcular_zoom()
 
+        # mantém carro_ref sempre no meio da fila (câmera centralizada)
+        if self.carros:
+            carros_ordenados = sorted(self.carros, key=lambda c: c.y)
+            self.carro_ref = carros_ordenados[len(carros_ordenados) // 2]
+
 
 # =========================
 # CLASSE JOGO
 # =========================
 class Jogo:
 
-    LARGURA_SLOT = 550
+    LARGURA_SLOT = 750
     LARGURA_TELA = LARGURA_SLOT * 2
     ALTURA_TELA  = 800
 
@@ -283,66 +360,61 @@ class Jogo:
         self.clock = pygame.time.Clock()
         self.fonte = pygame.font.SysFont("monospace", 13)
 
-        # estrada 1: frenagem suave
-        self.estrada1 = Estrada("config1.txt",
-                                offset_x_tela=0,
-                                com_frenagem=True,
-                                frenagem_brusca=False)
+        # estrada 1: frenagem suave (diminui gradualmente)
+        self.estrada1 = Estrada("config1.txt", offset_x_tela=0,                modo_carro="suave")
 
-        # estrada 2: sem frenagem
-        self.estrada2 = Estrada("config2.txt",
-                                offset_x_tela=self.LARGURA_SLOT,
-                                com_frenagem=False,
-                                frenagem_brusca=False)
+        # estrada 2: frenagem reativa (freia bruscamente quando da frente reduz)
+        self.estrada2 = Estrada("config2.txt", offset_x_tela=self.LARGURA_SLOT, modo_carro="reativo")
 
         self.estradas = [self.estrada1, self.estrada2]
 
-    # =========================
-    # DESENHAR UMA ESTRADA
-    # =========================
+        # timer de gravação a cada 10 segundos
+        self.ultimo_registro  = 0
+        self.intervalo_registro = 10000  # ms
+
+        # cria arquivo CSV com timestamp no nome
+        ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+        self.arquivo_csv = f"estatisticas_{ts}.csv"
+        with open(self.arquivo_csv, "w", newline="", encoding="utf-8") as f:
+            writer = csv.writer(f)
+            writer.writerow([
+                "tempo_s", " ||| ",
+                "e1_batidas", " e1_media_gasolina", " e1_media_distancia",
+                " ||| ", " e2_batidas", " e2_media_gasolina", " e2_media_distancia",
+            ])
+
+    # --------------------------------------------------
     def desenhar_estrada(self, estrada, superficie):
 
-        W = self.LARGURA_SLOT
-        H = self.ALTURA_TELA
-
+        W, H = self.LARGURA_SLOT, self.ALTURA_TELA
         superficie.fill(self.VERDE)
 
         if not estrada.carro_ref:
             return
 
-        centro_y = H // 2
-        centro_x = W // 2
+        cy, cx = H // 2, W // 2
 
-        ex = estrada.zoom_x(estrada.estrada_x_local, centro_x)
+        ex = estrada.zoom_x(estrada.estrada_x_local, cx)
         ew = estrada.estrada_largura * estrada.zoom
-
         pygame.draw.rect(superficie, self.CINZA, (int(ex), 0, int(ew), H))
 
         NUM_FAIXAS = 7
         lf = estrada.estrada_largura / NUM_FAIXAS
-
         for f in range(1, NUM_FAIXAS):
-
-            xl = estrada.zoom_x(estrada.estrada_x_local + f * lf, centro_x)
-
+            xl = estrada.zoom_x(estrada.estrada_x_local + f * lf, cx)
             for i in range(-H * 2, H * 2, 80):
-
                 ym = i + (estrada.carro_ref.y % 80)
-                yt = estrada.zoom_y(ym, centro_y)
-
-                pygame.draw.rect(
-                    superficie, self.BRANCO,
-                    (int(xl), int(yt), int(8 * estrada.zoom), int(40 * estrada.zoom)),
-                )
+                yt = estrada.zoom_y(ym, cy)
+                pygame.draw.rect(superficie, self.BRANCO,
+                    (int(xl), int(yt), int(8 * estrada.zoom), int(40 * estrada.zoom)))
 
         for carro in estrada.carros:
-
-            base_y = centro_y - (carro.y - estrada.carro_ref.y)
-            tela_y = estrada.zoom_y(base_y, centro_y)
-            tela_x = estrada.zoom_x(carro.x_base, centro_x)
-
+            base_y = cy - (carro.y - estrada.carro_ref.y)
+            tela_y = estrada.zoom_y(base_y, cy)
+            tela_x = estrada.zoom_x(carro.x_base, cx)
             self._desenhar_carro(superficie, carro, tela_x, tela_y, estrada.zoom)
 
+    # --------------------------------------------------
     def _desenhar_carro(self, surf, carro, x, y, zoom):
 
         larg = int(60 * zoom)
@@ -352,42 +424,46 @@ class Jogo:
         pygame.draw.rect(surf, cor, (int(x), int(y), larg, alt))
 
         for rx in (10, 50):
-            pygame.draw.circle(
-                surf, self.PRETO,
-                (int(x + rx * zoom), int(y + 90 * zoom)),
-                int(10 * zoom)
-            )
+            pygame.draw.circle(surf, self.PRETO,
+                (int(x + rx * zoom), int(y + 90 * zoom)), int(10 * zoom))
 
         for fx in (15, 45):
-            pygame.draw.circle(
-                surf, (255, 255, 0),
-                (int(x + fx * zoom), int(y + 10 * zoom)),
-                int(5 * zoom)
-            )
+            pygame.draw.circle(surf, (255, 255, 0),
+                (int(x + fx * zoom), int(y + 10 * zoom)), int(5 * zoom))
 
         if carro.freando and not carro.batido:
             fy = int(y + alt - int(8 * zoom))
             for bx in (5, 40):
-                pygame.draw.rect(
-                    surf, self.VERMELHO,
-                    (int(x + bx * zoom), fy, int(15 * zoom), int(6 * zoom))
-                )
+                pygame.draw.rect(surf, self.VERMELHO,
+                    (int(x + bx * zoom), fy, int(15 * zoom), int(6 * zoom)))
 
         txt = self.fonte.render(f"{carro.velocidade_atual:.1f}", True, self.BRANCO)
         surf.blit(txt, (int(x + 5 * zoom), int(y) - 16))
 
-    # =========================
-    # LOOP PRINCIPAL
-    # =========================
+    # --------------------------------------------------
+    def _gravar_estatisticas(self, tempo_ms):
+        tempo_s = tempo_ms / 1000
+        with open(self.arquivo_csv, "a", newline="", encoding="utf-8") as f:
+            writer = csv.writer(f)
+            writer.writerow([
+                f"{tempo_s:.1f}",
+                f"||| {self.estrada1.contador_batidas}",
+                f"{self.estrada1.media_gasolina:.2f}",
+                f"{self.estrada1.media_distancia:.1f}",
+                f"||| {self.estrada2.contador_batidas}",
+                f"{self.estrada2.media_gasolina:.2f}",
+                f"{self.estrada2.media_distancia:.1f}",
+            ])
+
+    # --------------------------------------------------
     def rodar(self):
 
-        surfs = [
-            pygame.Surface((self.LARGURA_SLOT, self.ALTURA_TELA))
-            for _ in self.estradas
-        ]
+        surfs = [pygame.Surface((self.LARGURA_SLOT, self.ALTURA_TELA))
+                 for _ in self.estradas]
+
+        fonte_cont = pygame.font.SysFont("monospace", 18, bold=True)
 
         rodando = True
-
         while rodando:
 
             for ev in pygame.event.get():
@@ -399,18 +475,37 @@ class Jogo:
             for estrada in self.estradas:
                 estrada.atualizar(tempo_atual)
 
+            # grava estatísticas a cada 10 segundos
+            if tempo_atual - self.ultimo_registro >= self.intervalo_registro:
+                self._gravar_estatisticas(tempo_atual)
+                self.ultimo_registro = tempo_atual
+
             self.tela.fill(self.VERDE)
 
             for estrada, surf in zip(self.estradas, surfs):
                 self.desenhar_estrada(estrada, surf)
                 self.tela.blit(surf, (estrada.offset_x, 0))
 
-            pygame.draw.line(
-                self.tela, self.PRETO,
-                (self.LARGURA_SLOT, 0),
-                (self.LARGURA_SLOT, self.ALTURA_TELA),
-                3
-            )
+            pygame.draw.line(self.tela, self.PRETO,
+                (self.LARGURA_SLOT, 0), (self.LARGURA_SLOT, self.ALTURA_TELA), 3)
+
+            # contadores
+            for estrada, label, x_tela in [
+                (self.estrada1, "Estrada 1 (frenagem suave)",   8),
+                (self.estrada2, "Estrada 2 (frenagem reativa)", self.LARGURA_SLOT + 8),
+            ]:
+                linha1 = fonte_cont.render(
+                    f"{label} - Batidas: {estrada.contador_batidas}", True, (255, 80, 80))
+                linha2 = fonte_cont.render(
+                    f"Media gasolina: {estrada.media_gasolina:.1f}", True, (255, 200, 50))
+                linha3 = fonte_cont.render(
+                    f"Media distancia: {estrada.media_distancia:.0f}", True, (100, 220, 255))
+                w = max(linha1.get_width(), linha2.get_width(), linha3.get_width()) + 8
+                h = linha1.get_height() + linha2.get_height() + linha3.get_height() + 14
+                pygame.draw.rect(self.tela, self.PRETO, (x_tela, 8, w, h))
+                self.tela.blit(linha1, (x_tela + 4, 11))
+                self.tela.blit(linha2, (x_tela + 4, 11 + linha1.get_height() + 2))
+                self.tela.blit(linha3, (x_tela + 4, 11 + linha1.get_height() + linha2.get_height() + 6))
 
             pygame.display.update()
             self.clock.tick(60)
