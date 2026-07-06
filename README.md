@@ -1,3 +1,3 @@
-Trabalho de POO2 do curso de ciencias da computação do IFC-Blumenau.
+Trabalho de POO2 (programação orientada a objetos 2) do curso de ciencias da computação do IFC-Blumenau.
 O código gera uma simulação de transito que apresenta 2 estradas com estratégias diferentes a serem seguidas. Uma estrada usa freagem suave para nao ter batidas desnecessarias e seguir o transito sem problemas. A segunda estrada usa freagem brusca para fazer o mesmo, representando 2 tipos de motoristas nas estradas. A simulação é para compararmos qual seria a melhor estrategia para se andar longas distancias (andar rapido e frear em cima do carro a frente apenas para não bater ou ir freando devagar). Para comparação o código tem a média de gasolina usada e a média de distancia percorrida pelos carros, que a cada 10 segundos é salvo em um arquivo para comparar em momentos futuros.
 Para executar o programa, basta apenas dar run no código que ele executa e faz o resto sozinho.
