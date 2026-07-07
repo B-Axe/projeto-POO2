@@ -14,5 +14,18 @@ Simulação em Python/Pygame de duas estradas paralelas, cada uma povoada por m�
 ㅤHUD com número de colisões, consumo médio de combustível e distância média por estradaㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ
 ㅤExportação periódica de estatísticas para CSV, com colunas separadas por ||| para cada estradaㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ
 
+### Arquitetura:
+ARQUIVO                | RESPONSABILIDADE
+main.py                | ponto de entrada, inicializa o pygame e a classe jogo
+jogo.py                | classe principal
+estrada.py             | gerencia carros, obstáculos, colisões, zoom e spawns
+carro.py               | posição, velocidade, colisçao e consumo
+obstaculo              | representa o buraco na pista
+estrategia_frenagem.py | hierarquia de estratégias de frenagem
+estrategia_factory.py  | cria a estratégia cprreta a partir de uma string
+config_loader.py       | leitura dos arquivos .txt de configuração
+renderer.py            | renderização açternativa ou desaclopada da estrada e do HUD
+logger.py              | gravação alternatica de estatísticas em CSV, desaclopada da classe jogo
+
 ### Print do arquivo das estatísticas:
 <img width="851" height="206" alt="035e54fd-9840-4d7c-870f-2059895c2ffc" src="https://github.com/user-attachments/assets/5784a263-03dd-47ff-949d-647b5da9abc8" />
