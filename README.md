@@ -2,6 +2,10 @@
 ### Sobre o projeto: 
 Simulação em Python/Pygame de duas estradas paralelas, cada uma povoada por múltiplos carros que reagem a obstáculos (buracos) e a outros veículos usando estratégias de frenagem distintas. O projeto compara, lado a lado e em tempo real, o comportamento de uma frenagem suave (gradual) contra uma frenagem reativa (baseada em resposta a mudanças bruscas do carro da frente).
 
+### Diagrama de classes:
+<img width="770" height="919" alt="diagrama_simulação" src="https://github.com/user-attachments/assets/d4a89f68-a7cb-4888-8744-8bc6556b5b46" />
+
+
 ### Print do código em execução:
 <img width="1872" height="1012" alt="começo da execução" src="https://github.com/user-attachments/assets/dd50bc92-e95a-4a64-8836-20d6651195ee" />
 
@@ -39,3 +43,10 @@ ARQUIVO | RESPONSABILIDADE  ㅤ  ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤㅤ ㅤ 
 
 ### Print do arquivo das estatísticas:
 <img width="851" height="206" alt="035e54fd-9840-4d7c-870f-2059895c2ffc" src="https://github.com/user-attachments/assets/5784a263-03dd-47ff-949d-647b5da9abc8" />
+
+### Como executar:
+```bash
+pip install pygame
+python main.py
+```
+ou 'run' no arquivo main, caso voce use no VScode por exemplo
