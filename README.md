@@ -6,13 +6,13 @@ Simulação em Python/Pygame de duas estradas paralelas, cada uma povoada por m�
 <img width="1872" height="1012" alt="começo da execução" src="https://github.com/user-attachments/assets/dd50bc92-e95a-4a64-8836-20d6651195ee" />
 
 ### Funcionalidades:
-ㅤMúltiplos carros por estrada, carregados a partir de arquivos de configuração externos (config1.txt, config2.txt)ㅤㅤ
-ㅤGeração aleatória de obstáculos (buracos)ㅤㅤ ㅤㅤ ㅤ  ㅤ ㅤ ㅤ  ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ 
-ㅤDuas (ou mais) estratégias de frenagem plugáveis via padrão Strategy, escolhidas por uma Factoryㅤㅤㅤㅤㅤㅤㅤㅤ
-ㅤDetecção de colisão carro com carro e carro com obstáculo, com tempo de recuperação aleatórioㅤㅤㅤㅤㅤㅤㅤㅤ
-ㅤCâmera com zoom dinâmico centrada no carro de referência de cada estradaㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ
-ㅤHUD com número de colisões, consumo médio de combustível e distância média por estradaㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ
-ㅤExportação periódica de estatísticas para CSV, com colunas separadas por ||| para cada estradaㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ
+ㅤ- Múltiplos carros por estrada, carregados a partir de arquivos de configuração externos (config1.txt, config2.txt)ㅤㅤ
+ㅤ- Geração aleatória de obstáculos (buracos)ㅤㅤ ㅤㅤ ㅤ  ㅤ ㅤ ㅤ  ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ 
+ㅤ- Duas (ou mais) estratégias de frenagem plugáveis via padrão Strategy, escolhidas por uma Factoryㅤㅤㅤㅤㅤㅤㅤㅤ
+ㅤ- Detecção de colisão carro com carro e carro com obstáculo, com tempo de recuperação aleatórioㅤㅤㅤㅤㅤㅤㅤㅤ
+ㅤ- Câmera com zoom dinâmico centrada no carro de referência de cada estradaㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ
+ㅤ- HUD com número de colisões, consumo médio de combustível e distância média por estradaㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ
+ㅤ- Exportação periódica de estatísticas para CSV, com colunas separadas por ||| para cada estradaㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ
 
 ### Arquitetura:
 ARQUIVO | RESPONSABILIDADE  ㅤ  ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ  ㅤ ㅤ ㅤ ㅤ 
