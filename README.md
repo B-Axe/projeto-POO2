@@ -1,4 +1,4 @@
-[diagrama_classes_simulacao_transito.html](https://github.com/user-attachments/files/29765856/diagrama_classes_simulacao_transito.html)# Trabalho de POO2  curso de ciencias da computação do IFC-Blumenau.ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ<img width="220" height="320" alt="IF" src="https://github.com/user-attachments/assets/b3a2614e-bac5-43d1-bd4d-89f1f8fc8bf5" />
+# Trabalho de POO2  curso de ciencias da computação do IFC-Blumenau.ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ<img width="220" height="320" alt="IF" src="https://github.com/user-attachments/assets/b3a2614e-bac5-43d1-bd4d-89f1f8fc8bf5" />
 ### Sobre o projeto: 
 Simulação em Python/Pygame de duas estradas paralelas, cada uma povoada por múltiplos carros que reagem a obstáculos (buracos) e a outros veículos usando estratégias de frenagem distintas. O projeto compara, lado a lado e em tempo real, o comportamento de uma frenagem suave (gradual) contra uma frenagem reativa (baseada em resposta a mudanças bruscas do carro da frente).
 # Diagrama de classe:
