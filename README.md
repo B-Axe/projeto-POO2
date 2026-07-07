@@ -2,5 +2,5 @@ Trabalho de POO2 (programação orientada a objetos 2) do curso de ciencias da c
 O código gera uma simulação de transito que apresenta 2 estradas com estratégias diferentes a serem seguidas. Uma estrada usa freagem suave para nao ter batidas desnecessarias e seguir o transito sem problemas. A segunda estrada usa freagem brusca para fazer o mesmo, representando 2 tipos de motoristas nas estradas. A simulação é para compararmos qual seria a melhor estrategia para se andar longas distancias (andar rapido e frear em cima do carro a frente apenas para não bater ou ir freando devagar). Para comparação o código tem a média de gasolina usada e a média de distancia percorrida pelos carros, que a cada 10 segundos é salvo em um arquivo para comparar em momentos futuros.
 Para executar o programa, basta apenas dar run no código que ele executa e faz o resto sozinho.
 <img width="220" height="320" alt="IF" src="https://github.com/user-attachments/assets/b3a2614e-bac5-43d1-bd4d-89f1f8fc8bf5" />
-ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤPrint do código em execução:
+ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤPrint do código em execução:
 <img width="1872" height="1012" alt="começo da execução" src="https://github.com/user-attachments/assets/dd50bc92-e95a-4a64-8836-20d6651195ee" />
