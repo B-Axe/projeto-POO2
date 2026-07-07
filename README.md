@@ -6,13 +6,13 @@ Simulação em Python/Pygame de duas estradas paralelas, cada uma povoada por m�
 <img width="1872" height="1012" alt="começo da execução" src="https://github.com/user-attachments/assets/dd50bc92-e95a-4a64-8836-20d6651195ee" />
 
 ### Funcionalidades:
--Múltiplos carros por estrada, carregados a partir de arquivos de configuração externos (config1.txt, config2.txt)
--Geração aleatória de obstáculos (buracos) com tempos de spawn independentes por estrada
--Duas (ou mais) estratégias de frenagem plugáveis via padrão Strategy, escolhidas por uma Factory
--Detecção de colisão carro-com-carro e carro-com-obstáculo, com tempo de recuperação aleatório
--Câmera com zoom dinâmico centrada no carro de referência de cada estrada
--HUD com número de colisões, consumo médio de combustível e distância média por estrada
--Exportação periódica de estatísticas para CSV, com colunas separadas por ||| para cada estrada
+-Múltiplos carros por estrada, carregados a partir de arquivos de configuração externos (config1.txt, config2.txt)ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ
+-Geração aleatória de obstáculos (buracos) ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ
+-Duas (ou mais) estratégias de frenagem plugáveis via padrão Strategy, escolhidas por uma Factoryㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ
+-Detecção de colisão carro-com-carro e carro-com-obstáculo, com tempo de recuperação aleatórioㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ
+-Câmera com zoom dinâmico centrada no carro de referência de cada estradaㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ
+-HUD com número de colisões, consumo médio de combustível e distância média por estradaㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ
+-Exportação periódica de estatísticas para CSV, com colunas separadas por ||| para cada estradaㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ
 
 ### Print do arquivo das estatísticas:
 <img width="851" height="206" alt="035e54fd-9840-4d7c-870f-2059895c2ffc" src="https://github.com/user-attachments/assets/5784a263-03dd-47ff-949d-647b5da9abc8" />
