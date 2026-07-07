@@ -22,7 +22,7 @@ estrada.py  ㅤ ㅤ ㅤ | gerencia carros, obstáculos, colisões, zoom e spawns
 carro.py  ㅤ ㅤ ㅤ | posição, velocidade, colisçao e consumo  ㅤ ㅤ ㅤㅤ ㅤ ㅤ  ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ 
 obstaculo  ㅤ ㅤ ㅤ | representa o buraco na pista ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ 
 estrategia_frenagem.py  ㅤ ㅤ ㅤ | hierarquia de estratégias de frenagem  ㅤㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ 
-estrategia_factory.py  ㅤ ㅤ ㅤ | cria a estratégia cprreta a partir de uma string  ㅤㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ 
+estrategia_factory.py  ㅤ ㅤ ㅤ | cria a estratégia cprreta a partir de uma string  ㅤㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ 
 config_loader.py  ㅤ ㅤ ㅤ | leitura dos arquivos .txt de configuração  ㅤ ㅤ ㅤ  ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ 
 renderer.py  ㅤ ㅤ ㅤ | renderização açternativa ou desaclopada da estrada e do HUD  ㅤ ㅤ ㅤ  ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ 
 logger.py  ㅤ ㅤ ㅤ | gravação alternatica de estatísticas em CSV, desaclopada da classe jogo
