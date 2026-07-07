@@ -1,4 +1,4 @@
-# Trabalho de POO2  curso de ciencias da computação do ㅤㅤIFC-Blumenau.
+# Trabalho de POO2  curso de ciencias da computação do ㅤㅤㅤㅤIFC-Blumenau.
 <img width="220" height="320" alt="IF" src="https://github.com/user-attachments/assets/b3a2614e-bac5-43d1-bd4d-89f1f8fc8bf5" />
 
 O código gera uma simulação de transito que apresenta 2 estradas com estratégias diferentes a serem seguidas. Uma estrada usa freagem suave para nao ter batidas desnecessarias e seguir o transito sem problemas. A segunda estrada usa freagem brusca para fazer o mesmo, representando 2 tipos de motoristas nas estradas. A simulação é para compararmos qual seria a melhor estrategia para se andar longas distancias (andar rapido e frear em cima do carro a frente apenas para não bater ou ir freando devagar). Para comparação o código tem a média de gasolina usada e a média de distancia percorrida pelos carros, que a cada 10 segundos é salvo em um arquivo para comparar em momentos futuros.
