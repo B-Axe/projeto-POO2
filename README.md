@@ -6,14 +6,14 @@ Simulação em Python/Pygame de duas estradas paralelas, cada uma povoada por m�
 <img width="1872" height="1012" alt="começo da execução" src="https://github.com/user-attachments/assets/dd50bc92-e95a-4a64-8836-20d6651195ee" />
 
 ### Funcionalidades:
-- Múltiplos carros por estrada, carregados a partir de arquivos de configuração externos (config1.txt, config2.txt)ㅤㅤ
-- Geração aleatória de obstáculos (buracos)ㅤㅤ ㅤㅤ ㅤ  ㅤ ㅤ ㅤ  ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ 
-- Duas (ou mais) estratégias de frenagem plugáveis via padrão Strategy, escolhidas por uma Factoryㅤㅤㅤㅤㅤㅤㅤㅤ
-- Detecção de colisão carro com carro e carro com obstáculo, com tempo de recuperação aleatórioㅤㅤㅤㅤㅤㅤㅤㅤ
-- Câmera com zoom dinâmico centrada no carro de referência de cada estradaㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ
-- HUD com número de colisões, consumo médio de combustível e distância média por estradaㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ
-- Exportação periódica de estatísticas para CSV, com colunas separadas por ||| para cada estradaㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ
-
+- Múltiplos carros por estrada, carregados a partir de arquivos de configuração externos (config1.txt, config2.txt)
+- Geração aleatória de obstáculos (buracos)
+- Duas (ou mais) estratégias de frenagem plugáveis via padrão Strategy, escolhidas por uma Factory
+- Detecção de colisão carro com carro e carro com obstáculo, com tempo de recuperação aleatório
+- Câmera com zoom dinâmico centrada no carro de referência de cada estrada
+- HUD com número de colisões, consumo médio de combustível e distância média por estrada
+- Exportação periódica de estatísticas para CSV, com colunas separadas por ||| para cada estrada
+  
 ### Arquitetura:
 ARQUIVO | RESPONSABILIDADE  ㅤ  ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ  ㅤ ㅤ ㅤ ㅤ 
 - main.py | ponto de entrada, inicializa o pygame e a classe jogo  ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ  ㅤ ㅤ ㅤ ㅤ ㅤ 
