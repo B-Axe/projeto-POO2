@@ -7,7 +7,7 @@ Simulação em Python/Pygame de duas estradas paralelas, cada uma povoada por m�
 
 ### Funcionalidades:
 ㅤMúltiplos carros por estrada, carregados a partir de arquivos de configuração externos (config1.txt, config2.txt)ㅤㅤ
-ㅤGeração aleatória de obstáculos (buracos)ㅤㅤ ㅤㅤ ㅤ  ㅤ ㅤ ㅤ ㅤ ㅤ  ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ 
+ㅤGeração aleatória de obstáculos (buracos)ㅤㅤ ㅤㅤ ㅤ  ㅤ ㅤ ㅤ ㅤ  ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ 
 ㅤDuas (ou mais) estratégias de frenagem plugáveis via padrão Strategy, escolhidas por uma Factoryㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ
 ㅤDetecção de colisão carro com carro e carro com obstáculo, com tempo de recuperação aleatórioㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ
 ㅤCâmera com zoom dinâmico centrada no carro de referência de cada estradaㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ
