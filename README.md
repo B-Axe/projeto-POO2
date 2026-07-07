@@ -7,3 +7,4 @@ Simulação em Python/Pygame de duas estradas paralelas, cada uma povoada por m�
 
 ### Print do arquivo das estatísticas:
 # <img width="851" height="206" alt="035e54fd-9840-4d7c-870f-2059895c2ffc" src="https://github.com/user-attachments/assets/5784a263-03dd-47ff-949d-647b5da9abc8" />
+ojadouifncuiwncouiwjnco
