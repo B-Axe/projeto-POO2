@@ -15,17 +15,17 @@ Simulação em Python/Pygame de duas estradas paralelas, cada uma povoada por m�
 ㅤExportação periódica de estatísticas para CSV, com colunas separadas por ||| para cada estradaㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ
 
 ### Arquitetura:
-ARQUIVO  ㅤ ㅤ ㅤ | RESPONSABILIDADE  ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ  ㅤ ㅤ ㅤ ㅤ 
-main.py   ㅤ ㅤ ㅤ | ponto de entrada, inicializa o pygame e a classe jogo  ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ  ㅤ ㅤ ㅤ ㅤ ㅤ 
-jogo.py  ㅤ ㅤ ㅤ | classe principalㅤ ㅤ ㅤ ㅤㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ 
-estrada.py  ㅤ ㅤ ㅤ | gerencia carros, obstáculos, colisões, zoom e spawns  ㅤ   ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ  ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ 
-carro.py  ㅤ ㅤ ㅤ | posição, velocidade, colisçao e consumo  ㅤ ㅤ ㅤㅤ ㅤ ㅤ  ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ 
-obstaculo  ㅤ ㅤ ㅤ | representa o buraco na pista ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ 
-estrategia_frenagem.py  ㅤ ㅤ ㅤ | hierarquia de estratégias de frenagem  ㅤㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ 
-estrategia_factory.py  ㅤ ㅤ ㅤ | cria a estratégia cprreta a partir de uma string  ㅤㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ 
-config_loader.py  ㅤ ㅤ ㅤ | leitura dos arquivos .txt de configuração   ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ 
-renderer.py  ㅤ ㅤ ㅤ | renderização açternativa ou desaclopada da estrada e do HUD  ㅤ  ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ 
-logger.py  ㅤ ㅤ ㅤ | gravação alternatica de estatísticas em CSV, desaclopada da classe jogo
+ARQUIVOㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ| RESPONSABILIDADE  ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ  ㅤ ㅤ ㅤ ㅤ 
+main.pyㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ| ponto de entrada, inicializa o pygame e a classe jogo  ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ  ㅤ ㅤ ㅤ ㅤ ㅤ 
+jogo.pyㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ| classe principalㅤ ㅤ ㅤ ㅤㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ 
+estrada.pyㅤㅤㅤㅤㅤㅤㅤㅤ| gerencia carros, obstáculos, colisões, zoom e spawns  ㅤ   ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ  ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ 
+carro.pyㅤㅤㅤㅤㅤㅤㅤㅤㅤ| posição, velocidade, colisçao e consumo  ㅤ ㅤ ㅤㅤ ㅤ ㅤ  ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ 
+obstaculo.pyㅤㅤㅤㅤㅤㅤㅤ| representa o buraco na pista ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ 
+estrategia_frenagem.pyㅤㅤ| hierarquia de estratégias de frenagem  ㅤㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ 
+estrategia_factory.pyㅤㅤ| cria a estratégia cprreta a partir de uma string  ㅤㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ 
+config_loader.pyㅤㅤㅤㅤㅤ| leitura dos arquivos .txt de configuração   ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ 
+renderer.pyㅤㅤㅤㅤㅤㅤㅤㅤ| renderização açternativa ou desaclopada da estrada e do HUD  ㅤ  ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ 
+logger.pyㅤㅤㅤㅤㅤㅤㅤㅤㅤ| gravação alternatica de estatísticas em CSV, desaclopada da classe jogo
 
 ### Print do arquivo das estatísticas:
 <img width="851" height="206" alt="035e54fd-9840-4d7c-870f-2059895c2ffc" src="https://github.com/user-attachments/assets/5784a263-03dd-47ff-949d-647b5da9abc8" />
