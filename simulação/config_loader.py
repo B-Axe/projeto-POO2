@@ -1,5 +1,5 @@
 # config_loader.py
-# Responsável por ler os arquivos de configuração (.txt)
+# Responsavel por ler os arquivos config.txt
 
 def carregar_config(nome_arquivo):
 
