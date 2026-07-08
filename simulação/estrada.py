@@ -11,7 +11,6 @@ class Estrada:
         self.offset_x   = offset_x_tela
         self.modo_carro = modo_carro
         
-        # Guardamos os tempos de spawn configurados para esta estrada específica
         self.spawn_min = spawn_min
         self.spawn_max = spawn_max
 
@@ -27,7 +26,6 @@ class Estrada:
         ]
 
         self.obstaculos = []
-        # Define o primeiro spawn baseado no tempo customizado da estrada
         self.proximo_obstaculo_tempo = pygame.time.get_ticks() + random.randint(self.spawn_min, self.spawn_max)
 
         self.carro_ref = self._carro_central()
@@ -64,7 +62,7 @@ class Estrada:
     def zoom_x(self, x, cx): return cx + (x - cx) * self.zoom
 
     def verificar_colisoes(self, tempo_atual):
-        # Carro com Carro
+        # Colisao carro com Carro
         for c1 in self.carros:
             if c1.batido:
                 continue
@@ -83,7 +81,7 @@ class Estrada:
                         c2.tempo_batida = tempo_atual
                         self.contador_batidas += 1
 
-        # Carro com Buraco
+        # colisao carro com Buraco
         for c in self.carros:
             if c.batido:
                 continue
@@ -103,7 +101,6 @@ class Estrada:
         
         self.obstaculos.append(Obstaculo(faixa, pos_y))
         
-        # Usa as variáveis da instância configuradas no jogo.py para agendar o próximo buraco
         self.proximo_obstaculo_tempo = tempo_atual + random.randint(self.spawn_min, self.spawn_max)
 
     def atualizar(self, tempo_atual):
