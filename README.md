@@ -5,6 +5,11 @@ Simulação em Python/Pygame de duas estradas paralelas, cada uma povoada por m�
 ### Diagrama de classes:
 <img width="770" height="919" alt="diagrama_simulação" src="https://github.com/user-attachments/assets/d4a89f68-a7cb-4888-8744-8bc6556b5b46" />
 
+### Visão da simulação:
+- A tela será dividida em 2 painéis
+  - Estrada1 - frenagem suave: os carros reduzem a velocidade progressivamente conforme se aproximam de um obstáculo, calculando um fator de desaceleração baseado na distância.
+  - Estrada2 - frenagem reativa: os carros só freiam bruscamente quando percebem que o carro da frente desacelerou ou quando a distância de segurança é violada, entrando em um estado de espera antes de retomar a velocidade.
+- Cada estrada gera obstáculos (buracos) em intervalos configuráveis, registra colisões, consumo de combustível fictício e distância percorrida, exportando essas estatísticas periodicamente para um arquivo CSV.
 
 ### Print do código em execução:
 <img width="1872" height="1012" alt="começo da execução" src="https://github.com/user-attachments/assets/dd50bc92-e95a-4a64-8836-20d6651195ee" />
