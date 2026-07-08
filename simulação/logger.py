@@ -12,7 +12,7 @@ class LoggerEstatisticas:
         with open(self.arquivo_csv, "w", newline="", encoding="utf-8") as f:
             writer = csv.writer(f)
             writer.writerow([
-                "tempo_s",
+                "tempo_s", " ||| ",
                 "e1_batidas", " e1_media_gasolina", " e1_media_distancia",
                 " ||| ", " e2_batidas", " e2_media_gasolina", " e2_media_distancia",
             ])
