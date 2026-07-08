@@ -22,13 +22,13 @@ class Carro:
         self.tempo_batida = 0
         self.freando      = False
 
-        # estatísticas acumuladas
+        #estatisticas acumuladas
         self.gasolina_total  = 0.0
         self.distancia_total = 0.0
 
     def atualizar(self, tempo_atual, alvos):
         if self.batido:
-            self.velocidade_atual = 0.0 # CORREÇÃO: Garante velocidade zero enquanto estiver batido
+            self.velocidade_atual = 0.0 #velocidade zero enquanto estiver batido
             if tempo_atual - self.tempo_batida > 5000:
                 self.batido = False
                 self.velocidade_atual = float(self.velocidade_base)
@@ -37,7 +37,6 @@ class Carro:
 
         self.freando = False
 
-        # Delegação polimórfica da estratégia
         self.velocidade_atual = self.estrategia.calcular_velocidade(self, tempo_atual, alvos)
 
         self.y += self.velocidade_atual
