@@ -39,7 +39,6 @@ class Renderer:
                 pygame.draw.rect(superficie, self.BRANCO,
                     (int(xl), int(yt), int(8 * estrada.zoom), int(40 * estrada.zoom)))
 
-        # Desenhar os obstáculos ativos
         for obs in estrada.obstaculos:
             base_y = cy - (obs.y - estrada.carro_ref.y)
             tela_y = estrada.zoom_y(base_y, cy)
@@ -47,11 +46,10 @@ class Renderer:
             
             larg = int(obs.largura * estrada.zoom)
             alt = int(obs.altura * estrada.zoom)
-            # Desenha um retângulo escuro com borda laranja de atenção
+            
             pygame.draw.rect(superficie, obs.cor, (int(tela_x), int(tela_y), larg, alt))
             pygame.draw.rect(superficie, self.LARANJA, (int(tela_x), int(tela_y), larg, alt), max(1, int(2 * estrada.zoom)))
 
-        # Desenhar os carros
         for carro in estrada.carros:
             base_y = cy - (carro.y - estrada.carro_ref.y)
             tela_y = estrada.zoom_y(base_y, cy)
