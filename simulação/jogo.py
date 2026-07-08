@@ -30,11 +30,11 @@ class Jogo:
         self.fonte_hud = pygame.font.SysFont("monospace", 18, bold=True)
 
         # CONFIGURAÇÃO DOS TEMPOS DE SPAWN AQUI:
-        # estrada 1: frenagem suave - buracos a cada 1.5s a 3s (1500ms a 3000ms)
+        # estrada 1: buracos a cada 6s a 8s
         self.estrada1 = Estrada("config1.txt", offset_x_tela=0, modo_carro="suave", 
-                                spawn_min=1500, spawn_max=3000)
+                                spawn_min=6000, spawn_max=8000)
                                 
-        # estrada 2: frenagem reativa - buracos a cada 5s a 8s (5000ms a 8000ms)
+        # estrada 2: buracos a cada 5s a 8s
         self.estrada2 = Estrada("config2.txt", offset_x_tela=self.LARGURA_SLOT, modo_carro="reativo", 
                                 spawn_min=5000, spawn_max=8000)
 
@@ -135,7 +135,7 @@ class Jogo:
                 pygame.draw.rect(superficie, self.BRANCO,
                     (int(xl), int(yt), int(8 * estrada.zoom), int(40 * estrada.zoom)))
 
-        # === DESENHAR OS BURACOS (OBSTÁCULOS) ===
+        # ---DESENHAR OS BURACOS---
         for obs in estrada.obstaculos:
             base_y = cy - (obs.y - estrada.carro_ref.y)
             tela_y = estrada.zoom_y(base_y, cy)
@@ -143,12 +143,12 @@ class Jogo:
             larg = int(obs.largura * estrada.zoom)
             alt = int(obs.altura * estrada.zoom)
             
-            # Desenha o fundo escuro elíptico do buraco
+            #desenha o fundo
             pygame.draw.ellipse(superficie, obs.cor, (int(tela_x), int(tela_y), larg, alt))
-            # Desenha uma borda amarela ao redor para sinalização visual
+            #desenha a borda
             pygame.draw.ellipse(superficie, (255, 235, 0), (int(tela_x), int(tela_y), larg, alt), max(1, int(2 * estrada.zoom)))
 
-        # Desenhar os carros
+        #desenha os carros
         for carro in estrada.carros:
             base_y = cy - (carro.y - estrada.carro_ref.y)
             tela_y = estrada.zoom_y(base_y, cy)
@@ -161,28 +161,28 @@ class Jogo:
         larg = int(carro.largura * zoom)
         alt  = int(carro.altura * zoom)
 
-        # Se o carro estiver acidentado, ele fica obrigatoriamente Vermelho
+        #carro batido fica vermelho
         cor = self.VERMELHO if carro.batido else carro.cor
         pygame.draw.rect(surf, cor, (int(x), int(y), larg, alt))
 
-        # rodas traseiras
+        #rodas
         for rx in (10, 50):
             pygame.draw.circle(surf, self.PRETO,
                 (int(x + rx * zoom), int(y + 90 * zoom)), int(10 * zoom))
 
-        # faróis
+        #farois
         for fx in (15, 45):
             pygame.draw.circle(surf, self.AMARELO,
                 (int(x + fx * zoom), int(y + 10 * zoom)), int(5 * zoom))
 
-        # luzes de freio
+        #luz freio
         if carro.freando and not carro.batido:
             fy = int(y + alt - int(8 * zoom))
             for bx in (5, 40):
                 pygame.draw.rect(surf, self.VERMELHO,
                     (int(x + bx * zoom), fy, int(15 * zoom), int(6 * zoom)))
 
-        # texto da velocidade
+        #txt velocidade
         v_float = float(texto)
         txt = self.fonte.render(f"{v_float:.1f}", True, self.BRANCO)
         surf.blit(txt, (int(x + 5 * zoom), int(y) - 16))
