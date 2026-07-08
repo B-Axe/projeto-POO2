@@ -13,13 +13,10 @@ class EstrategiaFrenagem(ABC):
         for outro in alvos:
             if outro is carro:
                 continue
-            # CORREÇÃO: Removeu-se o "if outro.batido: continue". 
-            # Carros batidos continuam a ser alvos válidos para que os de trás parem!
-            
-            # Verifica se é um Obstaculo (Buraco) inativo antes de avaliar
+
             if hasattr(outro, 'ativo') and not outro.ativo:
                 continue
-            # Verifica se está na mesma faixa horizontal
+                
             if abs(outro.x_base - carro.x_base) >= 20:
                 continue
                 
