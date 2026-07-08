@@ -10,6 +10,7 @@ Simulação em Python/Pygame de duas estradas paralelas, cada uma povoada por m�
   - Estrada1 - frenagem suave: os carros reduzem a velocidade progressivamente conforme se aproximam de um obstáculo, calculando um fator de desaceleração baseado na distância.
   - Estrada2 - frenagem reativa: os carros só freiam bruscamente quando percebem que o carro da frente desacelerou ou quando a distância de segurança é violada, entrando em um estado de espera antes de retomar a velocidade.
 - Cada estrada gera obstáculos (buracos) em intervalos configuráveis, registra colisões, consumo de combustível fictício e distância percorrida, exportando essas estatísticas periodicamente para um arquivo CSV.
+- Ao final da execução (ou periodicamente, a cada 10 segundos), um arquivo dados_simulacao_AAAAMMDD_HHMMSS.csv é gerado na raiz do projeto com o histórico de colisões, consumo médio e distância média de cada estrada.
 
 ### Print do código em execução:
 <img width="1872" height="1012" alt="começo da execução" src="https://github.com/user-attachments/assets/dd50bc92-e95a-4a64-8836-20d6651195ee" />
@@ -23,6 +24,9 @@ Simulação em Python/Pygame de duas estradas paralelas, cada uma povoada por m�
 - HUD com número de colisões, consumo médio de combustível e distância média por estrada
 - Exportação periódica de estatísticas para CSV, com colunas separadas por ||| para cada estrada
   
+### Video de desmonstração:
+Execução e explicação no video: https://youtu.be/Q1euXE6Y_sQ
+
 ### Arquitetura:
 ARQUIVO | RESPONSABILIDADE  ㅤ  ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ  ㅤ ㅤ ㅤ ㅤ 
 - main.py
@@ -47,7 +51,8 @@ ARQUIVO | RESPONSABILIDADE  ㅤ  ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤ ㅤㅤ ㅤ 
   -  gravação alternatica de estatísticas em CSV, desaclopada da classe jogo
 
 ### Print do arquivo das estatísticas:
-<img width="851" height="206" alt="035e54fd-9840-4d7c-870f-2059895c2ffc" src="https://github.com/user-attachments/assets/5784a263-03dd-47ff-949d-647b5da9abc8" />
+<img width="797" height="360" alt="estatistica 3" src="https://github.com/user-attachments/assets/b8ab46c6-5ad1-46eb-bfc9-378d80e9cb56" />
+
 
 ### Como executar:
 ```bash
