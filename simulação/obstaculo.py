@@ -3,7 +3,7 @@ import random
 import pygame
 
 class Obstaculo:
-    # O buraco dura entre 2s e 3s antes de sumir
+    #duração obstaculo, 2 a 3 segundos
     DURACAO_MINIMA = 2000
     DURACAO_MAXIMA = 3000
 
